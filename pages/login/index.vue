@@ -1,24 +1,29 @@
 <template>
   <div>
     {{qiitaArticles}}
+    <login-organism />
   </div>
 </template>
 
-<script>
-export default {
-  name: "index",
+<script lang="ts">
+import { Component, Vue } from "nuxt-property-decorator"
+import LoginOrganism from "~/components/organisms/logins/LoginOrganism.vue";
 
-  data () {
-    return {
-      qiitaArticles: []
-    }
+@Component({
+  components: {
+    LoginOrganism
   },
+  layout: 'noMenu',
+  name: 'LoginPage'
+})
+export default class LoginPage extends Vue {
+  qiitaArticles: string = ''
 
   async mounted () {
     let page = this;
-    await this.$axios.$get('/api/test').then(function(result) {
-      page.qiitaArticles = result;
-    })
+      await this.$axios.$get('/api/test').then(function(result: string) {
+        page.qiitaArticles = result;
+      })
   }
 }
 </script>

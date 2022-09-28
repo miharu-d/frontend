@@ -25,12 +25,14 @@
     },
     "types": [
       "@nuxt/types",
-      "@types/node"
-    ]
+      "@types/node",
+      "@nuxtjs/axios"
+    ],
+    "strictPropertyInitialization": false
   },
   "exclude": [
     "node_modules",
     ".nuxt",
     "dist"
-  ]
+  ],
 }
