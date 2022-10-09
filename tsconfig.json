@@ -26,9 +26,11 @@
     "types": [
       "@nuxt/types",
       "@types/node",
-      "@nuxtjs/axios"
+      "@nuxtjs/axios",
+      "@nuxtjs/auth-next"
     ],
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+
   },
   "exclude": [
     "node_modules",

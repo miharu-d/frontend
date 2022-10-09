@@ -31,6 +31,13 @@ export default class LoginOrganism extends Vue {
 
   async submit () {
     alert()
+    await this.$auth.loginWith('laravelSanctum', { data: this.form })
+    .then((res) => {
+      alert('success')
+    })
+    .catch(() => {
+      alert('error')
+    })
   }
 }
 </script>

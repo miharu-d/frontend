@@ -25,8 +25,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/constants.js' },
-    { src:  '~/plugins/axios' }
+    { src: '~/plugins/constants.ts' },
+    { src: '~/plugins/axios.ts' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -43,16 +43,22 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+    '@nuxtjs/auth-next'
   ],
 
   axios: {
+    prefix: process.env.API_URL,
     proxy: true,
-    credentials: true
+    credentials: true,
   },
 
   proxy: {
-    '/api': 'http://localhost:8080',
+    '/api': process.env.API_URL,
+    '/laravel': {
+      target: process.env.NODE_URL,
+      pathRewrite: { '^/laravel': '/' }
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -72,6 +78,48 @@ export default {
         }
       }
     }
+  },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/'
+    },
+    localStorage: false,
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: process.env.API_URL,
+        endpoints: {
+          csrf: {
+            url: '/sanctum/csrf-cookie'
+          },
+          login: { url: '/auth/login', method: 'post' },
+          logout: { url: '/auth/logout', method: 'post' },
+        }
+      },
+      cookie: {
+        cookie: {
+          name: 'XSRF-TOKEN'
+        }
+      }
+    }
+  },
+
+  router: {
+    middleware: ['auth']
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      prefix: process.env.API_URL,
+    }
+  },
+  publicRuntimeConfig: {
+    // axios: {
+    //   browserBaseURL: process.env.NODE_ENV !== 'production' ? process.env.SERVER_URL : '',
+    // }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

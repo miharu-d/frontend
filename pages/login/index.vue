@@ -14,7 +14,8 @@ import LoginOrganism from "~/components/organisms/logins/LoginOrganism.vue";
     LoginOrganism
   },
   layout: 'noMenu',
-  name: 'LoginPage'
+  name: 'LoginPage',
+  auth: false
 })
 export default class LoginPage extends Vue {
   qiitaArticles: string = ''
